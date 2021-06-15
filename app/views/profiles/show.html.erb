@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+<p><%= image_tag @profile.image.variant( resize_to_limit: [nil,100],saver: {quality: 100}), style:"border-radius: 50%;" %></p>
+<p>
+  <strong>Name:</strong>
+  <%= @profile.name %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @profile.phone %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @profile.address %>
+</p>
+
+<%= link_to 'Edit', edit_profile_path(@profile) %> |
+<%= link_to 'Back', profiles_path %>

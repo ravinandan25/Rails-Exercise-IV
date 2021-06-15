@@ -1,0 +1,92 @@
+
+<%# sidebar %>
+
+<div class="d-flex">
+<% if current_user %>
+  <div class="d-flex flex-column flex-shrink-0 p-3 bg-light  my-2 rounded " style="max-width: 280px; width:100%">
+      <div class="align-items-center mb-3   ">  
+      <%if @profile && @profile.image.attached? %>    
+        <%= image_tag @profile.image.variant( resize_to_limit: [nil,100],saver: {quality: 200}), style:"border-radius: 50%; display:block; margin:auto;" %>  
+        <%else%>
+           <div class="text-center d-flex align-items-center justify-content-center" style="width:100px; height:100px; border-radius: 50%; background-color:gray; margin:auto;"> <p>No Image</p>
+           
+           </div>
+        <%end%> 
+      <div>
+      <span class="fs-4 text-center d-block"><% if @profile && @profile.name %><%= @profile.name %></span><%end%>
+      <hr>
+      <ul class="nav nav-pills flex-column mb-auto" style="font-size:.8rem">
+        <li class="nav-item">                 
+            <strong>Email:</strong> <% if @profile && current_user %><%=current_user.email%>   <%end%>       
+        </li>
+        <li>
+           <strong>Phone:</strong> <% if @profile && @profile.phone %><%=@profile.phone%><%end%>          
+        </li>
+        <li>
+           <strong> Address:</strong> <% if @profile && @profile.address %><%=@profile.address%>  <%end%>        
+        </li>    
+      
+        </ul>    
+       
+      </div>
+      
+    </div>
+    <% if Profile.find_by(user_id: current_user.id) %>
+    <%= link_to 'Update Profile', edit_profile_path(current_user),class:"btn btn-dark my-3" %>
+    <%else%>
+    <%= link_to 'Update Profile', new_profile_path,class:"btn btn-dark my-3" %>
+    <%end%>
+    <%= link_to "Account Setting",  edit_user_registration_path , class:"btn btn-danger mb-3"%> 
+    <%= link_to 'Create New Blog', new_blog_app_path ,class:'btn btn-warning mb-3' %>
+  </div>
+  
+  <%end%> 
+ 
+  
+
+
+  <div class="my-2 ms-5 w-100">
+    <h1>Blogs</h1>
+    <br />
+        <div style="display: grid; grid-template-columns: 33.3% 33.3% 33.3%; grid-row-gap: 50px;">
+          <% @blog_apps.each do |blog_app| %>
+          <div class="card" style="max-width: 25rem; max-height:40rem; height:100%; width:100%; margin: auto;">
+            <%#= image_tag blog_app.image ,class:"card-img-top"%>
+            <%= image_tag blog_app.image.variant( resize_to_limit: [nil,265],saver: {quality: 100}) ,class:"card-img-top" , style:"height: 250px; object-fit: cover;"%>
+            
+            <div class="card-body">
+              <h5 class="card-title"><%= blog_app.title %></h5>
+              <p class="card-text"><strong>Author: </strong><%= blog_app.author %></p>             
+              <p class="card-text" style ="height: 72px ; overflow:hidden;"><%= blog_app.body %></p>
+              <%= link_to 'Read more', blog_app , class:'btn btn-warning'%>  
+                     
+              <% if current_user && current_user.id==blog_app.user_id%>
+              <%= link_to 'Edit', edit_blog_app_path(blog_app) , class:'btn btn-dark'%>
+              <%= link_to 'Delete', blog_app , method: :delete, class:'btn btn-danger'%>
+              <%end%>
+              <br>
+
+               <%if current_user%>
+              <%= form_with url: "/share", method: :get do |form| %>
+              <%#= form.label :friend_email %>
+              <%= form.text_field :url , type:"hidden", value:blog_app_url(blog_app) %>
+              <%= form.text_field :sender , type:"hidden", value:current_user.email %>
+              <%= form.text_field :friend_email,:placeholder =>"Enter email" ,class:"form-control d-inline mt-1"%>
+              
+              <%= form.submit "Share",class:"btn btn-info w-100 mt-1" %>
+              <% end %>
+              <% end %>
+              
+              
+            </div>
+          </div>
+          <% end %>
+        </div>
+
+        <div class="text-center m-5">  <%#= link_to 'New Blog App', new_blog_app_path ,class:'btn btn-warning' %> </div>
+  </div>
+
+</div>
+
+
+

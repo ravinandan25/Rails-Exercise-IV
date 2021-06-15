@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-xl">
+    <a class="navbar-brand" href="#">Blog App</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        
+        <li class="nav-item">
+          <%= link_to "Home" , root_path, class:"nav-link" %>
+        </li>
+        <li class="nav-item">
+         <%= link_to "Recent Blogs",  recent_path ,class:"nav-link"%>
+        </li>
+        <% if user_signed_in?%>
+           <li class="nav-item">
+                <%= link_to "My blogs",  my_blogs_path , class:"nav-link"%>          
+            </li>
+            <li class="nav-item">
+                <%= link_to "Logout", destroy_user_session_path , method: :delete,class:"nav-link"%>          
+            </li>            
+            
+        <%else%>
+        <li class="nav-item">
+            <%= link_to "SignIn", new_user_session_path ,class:"nav-link"%>
+            </li>
+            <li class="nav-item">
+            <%= link_to "SignUp", new_user_registration_path ,class:"nav-link"%>
+            </li>
+        <%end%>      
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+        <%if user_signed_in? %>
+         <span class="badge rounded-pill bg-warning mx-2 px-4 "><p style="margin-top:12px; margin-bottom:12px; ">Hi! <%= current_user.email%></p></span>
+        <% end %>
+      </form>
+    </div>
+  </div>
+</nav>

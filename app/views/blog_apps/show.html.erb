@@ -1,0 +1,23 @@
+
+<p>
+  <strong>Title:</strong>
+  <%= @blog_app.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @blog_app.body %>
+</p>
+
+<p>
+  <strong>Author:</strong>
+  <%= @blog_app.author %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <%= image_tag @blog_app.image.variant( resize_to_limit: [nil,265],saver: {quality: 100}) ,style:"display:block"%>
+</p>
+
+<%= link_to 'Edit', edit_blog_app_path(@blog_app) %> |
+<%= link_to 'Back', blog_apps_path %>
